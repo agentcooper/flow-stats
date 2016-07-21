@@ -1,5 +1,19 @@
 ### flow-stats
 
+#### Install
+
+##### Global
+
+- `npm install flow-stats -g`
+
+##### Local
+
+- `npm install flow-stats --save-dev`
+- Add [run script](https://docs.npmjs.com/misc/scripts): `"flow-stats": "flow-stats --glob 'src/components/**.js'"`
+- Run with `npm run flow-stats`
+
+#### Example
+
 ```bash
 $ flow-stats --glob 'src/components/**.js'
 ```
