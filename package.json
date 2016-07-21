@@ -1,10 +1,16 @@
 {
   "name": "flow-stats",
   "version": "0.0.1",
-  "keywords": ["flow", "flowtype", "coverage"],
+  "keywords": [
+    "flow",
+    "flowtype",
+    "coverage"
+  ],
   "description": "Check total Flow coverage for the project",
   "main": "index.js",
-  "bin": "./bin/flow-stats",
+  "bin": {
+    "flow-stats": "./bin/flow-stats"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +23,14 @@
     "flow-bin": "^0.29.0",
     "glob": "^7.0.5",
     "yargs": "^4.8.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentcooper/flow-stats.git"
+  },
+  "bugs": {
+    "url": "https://github.com/agentcooper/flow-stats/issues"
+  },
+  "homepage": "https://github.com/agentcooper/flow-stats#readme"
 }
