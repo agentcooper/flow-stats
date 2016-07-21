@@ -1,0 +1,17 @@
+{
+  "name": "flow-stats",
+  "version": "0.0.1",
+  "description": "Check total Flow coverage for the project",
+  "main": "index.js",
+  "bin": "./bin/flow-stats",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Artem Tyurin <artem.tyurin@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "flow-bin": "^0.29.0",
+    "glob": "^7.0.5",
+    "yargs": "^4.8.1"
+  }
+}

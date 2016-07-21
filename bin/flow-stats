@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+'use-strict';
+
+const glob = require('glob');
+
+const path = require('path');
+
+const { execFile } = require('child_process');
+
+const flow = require('flow-bin');
+
+const argv =
+  require('yargs')
+    .usage('$0 <cmd> [args]')
+    .option('glob', {
+      describe: 'provide a glob (in quotes)'
+    })
+    .default('glob', '**/*.js')
+    .help('help')
+    .argv;
+
+const getCoverage = (path) => new Promise((resolve, reject) => {
+  execFile(flow, ['coverage', '--json', path], (err, stdout) => {
+    if (err) {
+      return reject({ path });
+    }
+
+    try {
+      const json = JSON.parse(stdout);
+
+      const { uncovered_count, covered_count } = json.expressions;
+
+      const covered = 100 * (covered_count / (covered_count + uncovered_count));
+
+      resolve({ path, covered });
+    } catch (e) {
+      reject({ path });
+    }
+  });
+});
+
+const prettyPrint = (output) => {
+  output.forEach(file => {
+    console.log(`${file.covered.toFixed(2)}\t${file.path}`);
+  });
+};
+
+glob(argv.glob, (err, files) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+
+  console.log(`Matching ${argv.glob}, found ${files.length} file(s):\n`);
+
+  Promise.all(
+    files.map(file => getCoverage(file))
+  ).then(files => {
+    const sorted =
+      Array.from(files).sort((a, b) => b.covered - a.covered);
+
+    prettyPrint(sorted);
+  });
+});
