@@ -2,6 +2,7 @@
 
 ```bash
 $ flow-stats --glob 'src/components/**.js'
+```
 
 ```bash
 Matching src/components/**.js, found 44 file(s):
