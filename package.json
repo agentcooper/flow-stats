@@ -1,6 +1,7 @@
 {
   "name": "flow-stats",
   "version": "0.0.1",
+  "keywords": ["flow", "flowtype", "coverage"],
   "description": "Check total Flow coverage for the project",
   "main": "index.js",
   "bin": "./bin/flow-stats",
