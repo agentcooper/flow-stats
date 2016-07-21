@@ -1,5 +1,7 @@
 ### flow-stats
 
+Check total Flow coverage for the project.
+
 #### Install
 
 ##### Global
