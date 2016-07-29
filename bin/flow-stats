@@ -21,8 +21,11 @@ const argv =
     .argv;
 
 const getCoverage = (path) => new Promise((resolve, reject) => {
-  execFile(flow, ['coverage', '--json', path], (err, stdout) => {
+  execFile(flow, ['coverage', '--json', path], {
+    maxBuffer: 1024 * 500,
+  }, (err, stdout, stderr) => {
     if (err) {
+      console.log(err, stdout);
       return reject({ path });
     }
 
@@ -35,7 +38,25 @@ const getCoverage = (path) => new Promise((resolve, reject) => {
 
       resolve({ path, covered });
     } catch (e) {
+      console.log(e);
+
       reject({ path });
+    }
+  });
+});
+
+const startFlow = () => new Promise((resolve, reject) => {
+  execFile(flow, ['start', '--wait'], {
+    maxBuffer: 1024 * 500,
+  }, (err, stdout, stderr) => {
+    if (err) {
+      if (err.code === 11 /* already running */) {
+        resolve();
+      } else {
+        reject();
+      }
+    } else {
+      resolve();
     }
   });
 });
@@ -54,12 +75,16 @@ glob(argv.glob, (err, files) => {
 
   console.log(`Matching ${argv.glob}, found ${files.length} file(s):\n`);
 
-  Promise.all(
-    files.map(file => getCoverage(file))
-  ).then(files => {
-    const sorted =
-      Array.from(files).sort((a, b) => b.covered - a.covered);
+  startFlow().then(() => {
+    Promise.all(
+      files.map(file => getCoverage(file))
+    ).then(files => {
+      const sorted =
+        Array.from(files).sort((a, b) => b.covered - a.covered);
 
-    prettyPrint(sorted);
+      prettyPrint(sorted);
+    });
+  }, () => {
+    console.log('Failed starting Flow, please retry.');
   });
 });
