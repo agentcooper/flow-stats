@@ -80,7 +80,7 @@ glob(argv.glob, (err, files) => {
       files.map(file => getCoverage(file))
     ).then(files => {
       const sorted =
-        Array.from(files).sort((a, b) => b.covered - a.covered);
+        Array.from(files).filter(a => a.covered < 100).sort((a, b) => b.covered - a.covered);
 
       prettyPrint(sorted);
     });
