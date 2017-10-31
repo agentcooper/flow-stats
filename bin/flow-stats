@@ -83,6 +83,8 @@ glob(argv.glob, (err, files) => {
         Array.from(files).filter(a => a.covered < 100).sort((a, b) => b.covered - a.covered);
 
       prettyPrint(sorted);
+      
+      if (sorted.length) process.exit(1);
     });
   }, () => {
     console.log('Failed starting Flow, please retry.');
