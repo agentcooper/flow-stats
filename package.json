@@ -20,7 +20,7 @@
   "author": "Artem Tyurin <artem.tyurin@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "flow-bin": "^0.29.0",
+    "flow-bin": "*",
     "glob": "^7.0.5",
     "yargs": "^4.8.1"
   },
